@@ -1,6 +1,20 @@
 # DEVELOP - Deep Generative Design with 3D Pharmacophoric Constraints
 
-This repository contains our implementation of Deep Generative Design with 3D Pharmacophoric Constraints (DEVELOP). 
+This repository contains our implementation of [Deep Generative Design with 3D Pharmacophoric Constraints](https://www.biorxiv.org/content/10.1101/2021.04.27.441676v1.full) (DEVELOP). 
+
+If you found DEVELOP useful, please cite our preprint:
+
+```
+@article{Imrie2021DEVELOP,
+  title = {Deep Generative Design with 3D Pharmacophoric Constraints},
+  author = {Imrie, Fergus and Hadfield, Thomas E and Bradley, Anthony R and Deane, Charlotte M},
+  journal = {bioRxiv},
+  doi = {10.1101/2021.04.27.441676},
+  year = {2021},
+  URL = {https://www.biorxiv.org/content/10.1101/2021.04.27.441676v1.full},
+  eprint = {https://www.biorxiv.org/content/10.1101/2021.04.27.441676v1.full.pdf}
+}
+```
 
 # Acknowledgements
 

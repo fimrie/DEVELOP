@@ -20,7 +20,10 @@ def align_mol_to_frags(smi_molecule, smi_linker, smi_frags):
         qfrag = Chem.AdjustQueryProperties(frags,qp)
         frags_matches = list(mol.GetSubstructMatches(qfrag, uniquify=False))
         qlinker = Chem.AdjustQueryProperties(linker,qp)
-        linker_matches = list(mol.GetSubstructMatches(qlinker, uniquify=False))
+        if smi_linker == '':
+            linker_matches = [() for _ in frags_matches]
+        else:
+            linker_matches = list(mol.GetSubstructMatches(qlinker, uniquify=False))
 
         # Loop over matches
         for frag_match, linker_match in product(frags_matches, linker_matches):

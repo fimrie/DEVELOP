@@ -59,7 +59,10 @@ def read_file(file_path, add_idx=False, calc_pharm_counts=False):
             smi_frags, abs_dist, angle = toks
             smi_mol = smi_frags
             smi_linker = ''
-            idx=-1
+            if add_idx:
+                idx=i
+            else:
+                idx=-1
         elif len(toks) == 5:
             smi_mol, smi_linker, smi_frags, abs_dist, angle = toks 
             if add_idx:

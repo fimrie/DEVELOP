@@ -59,7 +59,10 @@ def read_file(file_path, add_idx=False, calc_pharm_counts=False):
             smi_frags = toks[0]
             smi_mol = smi_frags
             smi_elab = ''
-            idx=-1
+            if add_idx:
+                idx=i
+            else:
+                idx=-1
         elif len(toks) == 3:
             smi_mol, smi_elab, smi_frags = toks 
             if add_idx:

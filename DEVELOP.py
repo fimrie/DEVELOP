@@ -724,11 +724,10 @@ class DenseGGNNChemModel(ChemModel):
                                                                         for v in [e[0], e[2]]])))
                 chosen_bucket_size = bucket_sizes[chosen_bucket_idx]
 
-                # FI - I THINK THIS IS THE SAME AS THE ABOVE. I DON'T UNDERSTAND WHY THEY RE-RUN to_graph
                 nodes_no_master = d['node_features_'+out_direc]
                 edges_no_master = d['graph_'+out_direc]
                 incremental_adj_mat,distance_to_others,node_sequence,edge_type_masks,edge_type_labels,local_stop, edge_masks, edge_labels, overlapped_edge_features=\
-                            construct_incremental_graph_preselected(dataset, edges_no_master, chosen_bucket_size,
+                            construct_incremental_graph_preselected(self.params['dataset'], edges_no_master, chosen_bucket_size,
                                                 len(nodes_no_master), d['v_to_keep'], d['exit_points'], nodes_no_master, self.params, is_training_data, initial_idx=starting_idx)
                 if self.params["sample_transition"] and list_idx > 0:
                     incremental_results[res_idx][-1]=[x+y for x, y in zip(incremental_results[res_idx][-1], [incremental_adj_mat,distance_to_others,
@@ -1091,7 +1090,7 @@ class DenseGGNNChemModel(ChemModel):
                                                 sampled_node_symbol, sampled_node_keep, real_length,
                                                 random_normal_states, random_normal_states_in, elements, num_vertices, cnn_input)
             # If multiple starting points, select best only by total_log_prob
-            if dataset=='zinc' and new_mol is not None:
+            if self.params["dataset"]=='zinc' and new_mol is not None:
                 #counts=shape_count(self.params["dataset"], True,[Chem.MolToSmiles(new_mol)])
                 #all_mol.append((0.5 * counts[1][2]+ counts[1][3], total_log_prob, new_mol))
                 all_mol.append((0, total_log_prob, new_mol))
@@ -1102,7 +1101,7 @@ class DenseGGNNChemModel(ChemModel):
             return
         # Record generated molecule
         generated_all_smiles.append(elements['smiles_in'] + " " + elements['smiles_out'] + " " + Chem.MolToSmiles(best_mol))
-        dump('%s_generated_smiles_%s' % (self.run_id, dataset), generated_all_smiles)
+        dump('%s_generated_smiles_%s' % (self.run_id, self.params["dataset"]), generated_all_smiles)
         # Progress
         if count % 100 == 0:
             print("Generated mol %d" % (count))

@@ -11,6 +11,7 @@ Options:
     --test_mode              To prepare the data for DeLinker in test mode
     --include_pharms         Include pharmacophoric features in structural data
     --add_idx                Add index denoting line number under sdf_idx
+    --no_dummy_info          Don't add [0,0] to start of structural infomation (needed for use with pretrained model only)
 """
 
 import sys, os
@@ -47,7 +48,7 @@ def get_pharm_dict(smi):
     return [dic['Donor'], dic['Acceptor'], dic['Aromatic']]
 
 
-def read_file(file_path, add_idx=False, calc_pharm_counts=False):
+def read_file(file_path, add_idx=False, calc_pharm_counts=False, no_dummy_info=False):
     with open(file_path, 'r') as f:
         lines = f.readlines()
     num_lines = len(lines)
@@ -79,7 +80,10 @@ def read_file(file_path, add_idx=False, calc_pharm_counts=False):
             pharm_count = get_pharm_dict(smi_elab)
         else:
             pharm_count = []
-        struct_data = []
+        if no_dummy_info == True:
+            struct_data = []
+        else:
+            struct_data = [0, 0]
         struct_data.extend(pharm_count)
         # Add to dataset
         data.append({'smi_mol': smi_mol, 'smi_elab': smi_elab, 
@@ -148,8 +152,9 @@ if __name__ == "__main__":
     test_mode = args.get('--test_mode')
     add_idx = args.get('--add_idx')
     calc_pharm_counts = args.get('--include_pharms')
+    no_dummy_info = args.get('--no_dummy_info')
 
     for data_path, name in zip(data_paths, names):
         print("Preparing: %s" % name)
-        raw_data = read_file(data_path, add_idx=add_idx, calc_pharm_counts=calc_pharm_counts)
+        raw_data = read_file(data_path, add_idx=add_idx, calc_pharm_counts=calc_pharm_counts, no_dummy_info=no_dummy_info)
         preprocess(raw_data, dataset, name, output_dir, test_mode)
